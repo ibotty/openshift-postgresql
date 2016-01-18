@@ -21,7 +21,6 @@ include '${POSTGRESQL_RECOVERY_FILE}'
 EOF
 }
 
-check_env_vars
 generate_passwd_file
 generate_postgresql_config
 
