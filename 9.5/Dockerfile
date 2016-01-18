@@ -31,11 +31,13 @@ RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
     yum -y install epel-release && \
     rpmkeys --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && \
     yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper \
-        postgresql95-server postgresql95-devel pgxnclient pg_activity \
+        postgresql95-server postgresql95-contrib postgresql95-devel pgxnclient \
+        pg_activity \
         make gcc python-setuptools && \
     export PATH=/usr/pgsql-${POSTGRESQL_VERSION}/bin:/usr/bin:/bin:/usr/sbin:/sbin && \
     pgxn install hashtypes && \
     pgxn install url_encode && \
+    pgxn install first_last_agg && \
     echo yum remove -y make gcc python-setuptools postgresql95-devel pgxnclient && \
     yum clean all && \
     localedef -f UTF-8 -i en_US en_US.UTF-8 && \
