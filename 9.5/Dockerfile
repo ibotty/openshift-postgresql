@@ -29,7 +29,9 @@ EXPOSE 5432
 # to make sure of that.
 RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
     yum -y install epel-release && \
-    yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper postgresql95-server && \
+    yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper \
+        postgresql95-server postgresql95-devel pgxnclient pg_activity \
+        make gcc && \
     yum clean all && \
     localedef -f UTF-8 -i en_US en_US.UTF-8 && \
     mkdir -p /var/lib/pgsql/data /etc/credentials && \
