@@ -29,6 +29,7 @@ EXPOSE 5432
 # to make sure of that.
 RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
     yum -y install epel-release && \
+    rpmkeys --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && \
     yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper \
         postgresql95-server postgresql95-devel pgxnclient pg_activity \
         make gcc && \
