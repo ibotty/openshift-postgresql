@@ -32,7 +32,7 @@ RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
     yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper postgresql95-server && \
     yum clean all && \
     localedef -f UTF-8 -i en_US en_US.UTF-8 && \
-    mkdir -p /var/lib/pgsql/data && \
+    mkdir -p /var/lib/pgsql/data /etc/credentials && \
     test "$(id postgres)" = "uid=26(postgres) gid=26(postgres) groups=26(postgres)"
 
 # Loosen permission bits to avoid problems running container with arbitrary UID
@@ -46,9 +46,9 @@ ENV CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/postgresql
 # When bash is started non-interactively, to run a shell script, for example it
 # looks for this variable and source the content of this file. This will enable
 # the SCL for all scripts without need to do 'scl enable'.
-#ENV BASH_ENV=${CONTAINER_SCRIPTS_PATH}/scl_enable \
-#    ENV=${CONTAINER_SCRIPTS_PATH}/scl_enable \
-#    PROMPT_COMMAND=". ${CONTAINER_SCRIPTS_PATH}/scl_enable"
+ENV BASH_ENV=${CONTAINER_SCRIPTS_PATH}/scl_enable \
+    ENV=${CONTAINER_SCRIPTS_PATH}/scl_enable \
+    PROMPT_COMMAND=". ${CONTAINER_SCRIPTS_PATH}/scl_enable"
 
 VOLUME ["/var/lib/pgsql/data"]
 

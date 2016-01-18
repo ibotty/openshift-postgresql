@@ -27,6 +27,14 @@ function usage() {
   exit 1
 }
 
+function var_from_file() {
+  if [[ ! -v "$1" && -f "$2" ]]; then
+      echo "setting $1 from content in $2"
+      eval export $1='$(<$2)'
+      eval "echo $"$1
+  fi
+}
+
 function check_env_vars() {
   if [[ -v POSTGRESQL_USER || -v POSTGRESQL_PASSWORD || -v POSTGRESQL_DATABASE ]]; then
     # one var means all three must be specified
@@ -187,3 +195,9 @@ function wait_for_postgresql_master() {
     sleep 1
   done
 }
+
+var_from_file POSTGRESQL_USER /etc/credentials/pguser/username
+var_from_file POSTGRESQL_PASSWORD /etc/credentials/pguser/password
+var_from_file POSTGRESQL_ADMIN_PASSWORD /etc/credentials/pgadmin/password
+var_from_file POSTGRESQL_MASTER_USER /etc/credentials/pgmaster/username
+var_from_file POSTGRESQL_MASTER_PASSWORD /etc/credentials/pgmaster/password
