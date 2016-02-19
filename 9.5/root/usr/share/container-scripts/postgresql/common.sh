@@ -29,9 +29,7 @@ function usage() {
 
 function var_from_file() {
   if [[ ! -v "$1" && -f "$2" ]]; then
-      echo "setting $1 from content in $2"
       eval export $1='$(<$2)'
-      eval "echo $"$1
   fi
 }
 
