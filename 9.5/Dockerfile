@@ -35,9 +35,10 @@ RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
         pg_activity \
         make gcc python-setuptools && \
     export PATH=/usr/pgsql-${POSTGRESQL_VERSION}/bin:/usr/bin:/bin:/usr/sbin:/sbin && \
-    pgxn install hashtypes && \
     pgxn install url_encode && \
     pgxn install first_last_agg && \
+    pgxn install hashtypes=0.1.1 && \
+    sed -i 's/0\.1/0.1.1/' /usr/pgsql-9.5/share/extension/hashtypes.control && \
     echo yum remove -y make gcc python-setuptools postgresql95-devel pgxnclient && \
     yum clean all && \
     localedef -f UTF-8 -i en_US en_US.UTF-8 && \
