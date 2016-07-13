@@ -154,10 +154,34 @@ function set_passwords() {
   pg_ctl -w start -o "-h ''"
 
   if [[ ",$postinitdb_actions," = *,simple_db,* ]]; then
+    psql <<EOF
+DO
+$body$
+BEGIN
+    IF NOT EXISTS (
+        SELECT * FROM pg_catalog_pg_user
+        WHERE usename = '${POSTGRESQL_USER}') THEN
+        CREATE USER '${POSTGRESQL_USER}' LOGIN;
+    END IF;
+END
+$body
+EOF
     psql --command "ALTER USER \"${POSTGRESQL_USER}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_PASSWORD}';"
   fi
 
   if [ -v POSTGRESQL_MASTER_USER ]; then
+    psql <<EOF
+DO
+$body$
+BEGIN
+    IF NOT EXISTS (
+        SELECT * FROM pg_catalog_pg_user
+        WHERE usename = '${POSTGRESQL_MASTER_USER}') THEN
+        CREATE USER '${POSTGRESQL_MASTER_USER}' LOGIN;
+    END IF;
+END
+$body
+EOF
     psql --command "ALTER USER \"${POSTGRESQL_MASTER_USER}\" WITH REPLICATION;"
     psql --command "ALTER USER \"${POSTGRESQL_MASTER_USER}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_MASTER_PASSWORD}';"
   fi
@@ -174,7 +198,7 @@ function set_pgdata ()
   # backwards compatibility case, we used to put the data here
   if [ -e ${HOME}/data/PG_VERSION ]; then
     export PGDATA=$HOME/data
-  else 
+  else
     # create a subdirectory that the user owns
     mkdir -p "${HOME}/data/userdata"
     export PGDATA=$HOME/data/userdata
