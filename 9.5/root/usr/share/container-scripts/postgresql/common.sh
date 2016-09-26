@@ -156,7 +156,7 @@ function set_passwords() {
   if [[ ",$postinitdb_actions," = *,simple_db,* ]]; then
     psql <<EOF
 DO
-$body$
+\$body$
 BEGIN
     IF NOT EXISTS (
         SELECT * FROM pg_catalog_pg_user
@@ -164,7 +164,7 @@ BEGIN
         CREATE USER '${POSTGRESQL_USER}' LOGIN;
     END IF;
 END
-$body
+\$body$
 EOF
     psql --command "ALTER USER \"${POSTGRESQL_USER}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_PASSWORD}';"
   fi
@@ -172,7 +172,7 @@ EOF
   if [ -v POSTGRESQL_MASTER_USER ]; then
     psql <<EOF
 DO
-$body$
+\$body$
 BEGIN
     IF NOT EXISTS (
         SELECT * FROM pg_catalog_pg_user
@@ -180,7 +180,7 @@ BEGIN
         CREATE USER '${POSTGRESQL_MASTER_USER}' LOGIN;
     END IF;
 END
-$body
+\$body$
 EOF
     psql --command "ALTER USER \"${POSTGRESQL_MASTER_USER}\" WITH REPLICATION;"
     psql --command "ALTER USER \"${POSTGRESQL_MASTER_USER}\" WITH ENCRYPTED PASSWORD '${POSTGRESQL_MASTER_PASSWORD}';"
