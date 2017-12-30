@@ -159,7 +159,7 @@ DO
 \$body$
 BEGIN
     IF NOT EXISTS (
-        SELECT * FROM pg_catalog_pg_user
+        SELECT * FROM pg_catalog.pg_user
         WHERE usename = '${POSTGRESQL_USER}') THEN
         CREATE USER "${POSTGRESQL_USER}" LOGIN;
     END IF;
@@ -175,7 +175,7 @@ DO
 \$body$
 BEGIN
     IF NOT EXISTS (
-        SELECT * FROM pg_catalog_pg_user
+        SELECT * FROM pg_catalog.pg_user
         WHERE usename = '${POSTGRESQL_MASTER_USER}') THEN
         CREATE USER "${POSTGRESQL_MASTER_USER}" LOGIN;
     END IF;
