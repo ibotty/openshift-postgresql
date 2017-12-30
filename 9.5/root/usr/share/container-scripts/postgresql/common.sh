@@ -161,7 +161,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT * FROM pg_catalog_pg_user
         WHERE usename = '${POSTGRESQL_USER}') THEN
-        CREATE USER '${POSTGRESQL_USER}' LOGIN;
+        CREATE USER "${POSTGRESQL_USER}" LOGIN;
     END IF;
 END
 \$body$
@@ -177,7 +177,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT * FROM pg_catalog_pg_user
         WHERE usename = '${POSTGRESQL_MASTER_USER}') THEN
-        CREATE USER '${POSTGRESQL_MASTER_USER}' LOGIN;
+        CREATE USER "${POSTGRESQL_MASTER_USER}" LOGIN;
     END IF;
 END
 \$body$
