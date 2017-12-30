@@ -12,15 +12,15 @@ FROM centos:7
 
 MAINTAINER SoftwareCollections.org <sclorg@redhat.com>
 
-ENV POSTGRESQL_VERSION=9.5 \
+ENV POSTGRESQL_VERSION=10 \
     HOME=/var/lib/pgsql \
     PGUSER=postgres \
-    POSTGRES_RELEASE_REPO=http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+    POSTGRES_RELEASE_REPO=https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
 
 LABEL io.k8s.description="PostgreSQL is an advanced Object-Relational database management system" \
-      io.k8s.display-name="PostgreSQL 9.5" \
+      io.k8s.display-name="PostgreSQL 10" \
       io.openshift.expose-services="5432:postgresql" \
-      io.openshift.tags="database,postgresql,postgresql95"
+      io.openshift.tags="database,postgresql,postgresql10"
 
 EXPOSE 5432
 
@@ -31,15 +31,13 @@ RUN rpm -Uvh $POSTGRES_RELEASE_REPO && \
     yum -y install epel-release && \
     rpmkeys --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && \
     yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper \
-        postgresql95-server postgresql95-contrib postgresql95-devel pgxnclient \
-        pg_activity \
+        postgresql10-server postgresql10-contrib postgresql10-devel pgxnclient \
+        pg_activity rsync openssh \
         make gcc python-setuptools && \
     export PATH=/usr/pgsql-${POSTGRESQL_VERSION}/bin:/usr/bin:/bin:/usr/sbin:/sbin && \
     pgxn install url_encode && \
     pgxn install first_last_agg && \
-    pgxn install hashtypes=0.1.1 && \
-    sed -i 's/0\.1/0.1.1/' /usr/pgsql-9.5/share/extension/hashtypes.control && \
-    echo yum remove -y make gcc python-setuptools postgresql95-devel pgxnclient && \
+    echo yum remove -y make gcc python-setuptools postgresql10-devel pgxnclient && \
     yum clean all && \
     localedef -f UTF-8 -i en_US en_US.UTF-8 && \
     mkdir -p /var/lib/pgsql/data /etc/credentials && \
