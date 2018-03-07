@@ -16,4 +16,6 @@ fi
 set_passwords
 
 unset_env_vars
+chmod 0700 "$PGDATA"
+chmod -s "$PGDATA"
 exec postgres "$@"
