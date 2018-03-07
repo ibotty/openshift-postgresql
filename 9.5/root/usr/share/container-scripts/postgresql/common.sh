@@ -136,6 +136,8 @@ EOF
 }
 
 function create_users() {
+  chmod 0700 "$PGDATA"
+  chmod -s "$PGDATA"
   pg_ctl -w start -o "-h ''"
 
   if [[ ",$postinitdb_actions," = *,simple_db,* ]]; then
@@ -151,6 +153,8 @@ function create_users() {
 }
 
 function set_passwords() {
+  chmod 0700 "$PGDATA"
+  chmod -s "$PGDATA"
   pg_ctl -w start -o "-h ''"
 
   if [[ ",$postinitdb_actions," = *,simple_db,* ]]; then
