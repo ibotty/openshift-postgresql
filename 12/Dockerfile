@@ -31,7 +31,7 @@ RUN yum install -y $POSTGRES_RELEASE_REPO epel-release centos-release-scl-rh && 
     yum -y --setopt=tsflags=nodocs install gettext bind-utils nss_wrapper \
         postgresql12-server postgresql12-contrib postgresql12-devel pgxnclient \
         pg_activity rsync openssh llvm-toolset-7 llvm5.0 \
-        make gcc python-setuptools && \
+        make gcc python36-six && \
     export PATH=/usr/pgsql-${POSTGRESQL_VERSION}/bin:/usr/bin:/bin:/usr/sbin:/sbin && \
     pgxn install url_encode && \
     pgxn install first_last_agg && \
